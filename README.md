@@ -4,7 +4,7 @@ Welcome to hcs-collector, the main idea of this app is to help our customers to 
 
 ---
 
-**Disclaimer**: This project or the binary files available in the Releases area are NOT delivered and/or released by Red Hat. This is an independent project to help customers and Red Hat Support team to export and/or collect the data from console.redhat.com for counting purposes `HCS` or `Hybrid Committed Spend Program`. 
+**Disclaimer**: This project or the binary files available in the Releases area are NOT delivered and/or released by Red Hat. This is an independent project to help customers and Red Hat Support team to export and/or collect the data from console.redhat.com for counting purposes of `HCS` or `Hybrid Committed Spend Program`. 
 
 ---
 
