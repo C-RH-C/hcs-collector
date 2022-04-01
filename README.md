@@ -1,6 +1,6 @@
 # hcs-collector - Command Line Tool
 
-Welcome to hcs-collector, the main idea of this app is to help our customers to collect daily the information from console.redhat.com and generate a report that will reflect some kind of consumption during the month for On-Demand purposes.
+Welcome to hcs-collector, this app will help our customers to collect daily the information from `console.redhat.com` and generate a report that will reflect some kind of consumption during the month for On-Demand subscriptions.
 
 ---
 
