@@ -10,7 +10,7 @@ Welcome to hcs-collector, this app will help our customers to collect daily the 
 
 <h1>How it works?</h1>
 
-Combined with [crhc-cli](https://github.com/C-RH-C/crhc-cli), this tool will collect the information daily, will keep it in a place defined by the user and whenever the customer need, they will be able to generate the consumption report. The analysis process will be checking all the local files and will be collecting the `max concurrent value` of each one. At this moment, this is just a pilot and we are counting only `On-demand Physical Node` and `On-demand Virtual Node`
+Combined with [crhc-cli](https://github.com/C-RH-C/crhc-cli), this tool will collect the information daily, will keep the data in a place defined by the user and whenever the customer need, they will be able to generate the consumption report. The analysis process will be checking all the local files and will be presenting the `max concurrent value` of each month. At this moment, this is just a pilot and we are counting only `On-demand Physical Node` and `On-demand Virtual Node`
 
 ---
 
