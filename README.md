@@ -36,7 +36,7 @@ Commands:
 Basically, you need to configure [crhc-cli](https://github.com/C-RH-C/crhc-cli) to be working properly in your environment, after that, you can just download the `hcs-collector` binary from the release area, and execute the commands below
 
   - `./hcs-collector setup base-dir` to setup where you would like to store the data
-  - `./hcs-collector setup crhc-cli` to setup where you the crhc-cli binary is located
+  - `./hcs-collector setup crhc-cli` to setup where the crhc-cli binary is located
 
 After that, you can execute 
 
@@ -48,7 +48,7 @@ After that, you can execute
 
 <h1>Some Examples</h1>
 
-- Here we can see the current configuration. All the information will be adde via CLI tool.
+- Here we can see the current configuration. All the information was adde via CLI tool.
 
 ```
 $ ./hcs-collector.py setup view
@@ -139,7 +139,10 @@ $ tree .
 7 directories, 63 files
 ```
 
-- And here the output of the processing
+Note. The structure above will be created automatically. No manual intervention is required.
+
+
+- And here we can see the output of `process` option
 
 ```
 $ ./hcs-collector.py process
