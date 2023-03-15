@@ -81,14 +81,12 @@ def append_tags_to_inventory_json(dest_json_file, crhc_cli):
                 os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
                 with open("/tmp/tags.json", "r") as file_tag:
                     tag_result=json.load(file_tag)
-                    print(tag_result)
                     if ('results' in tag_result):
-                        print ('found a tag')
                         if (tag_result['results'].get(id)):
                             tagid = tag_result['results'].get(id)
-                            inventoryItem['tags'] = tagid
+                            inventoryItem.get('server')['tags'] = tagid
     with open(dest_json_file, "w") as file_obj:
-        json.dump(data,file_obj)
+        json.dump(data,file_obj, indent=2)
 
 
 
