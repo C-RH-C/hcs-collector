@@ -81,6 +81,7 @@ def append_tags_to_inventory_json(dest_json_file, crhc_cli):
                     if (tag_result['results'].get(id)):
                         tagid = tag_result['results'].get(id)
                         inventoryItem['tags'] = tagid
+    with open(dest_json_file, "w") as file_obj:
         json.dump(data,file_obj)
 
 
