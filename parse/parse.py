@@ -8,7 +8,6 @@ setup_env.standard_conf_file()
 
 
 @click.group()
-@click.pass_context
 def main():
     """
     Command line tool for HCS - Hybrid Commited Spend
