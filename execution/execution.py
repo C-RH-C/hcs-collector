@@ -74,10 +74,13 @@ def append_tags_to_inventory_json(dest_json_file, crhc_cli):
                 # print(row)
                 # get the number of cores.
                 id = inventoryItem['id']
+                print('Reading data for id : ' + id)
                 system_profile = inventoryItem['system_profile']
                 # get the tags for the system
                 tag_result = os.system(crhc_cli + "./crhc get /api/inventory/v1/hosts/" + id + "/tags")
+                print(tag_result)
                 if ('results' in tag_result):
+                    print ('found a tag')
                     if (tag_result['results'].get(id)):
                         tagid = tag_result['results'].get(id)
                         inventoryItem['tags'] = tagid
