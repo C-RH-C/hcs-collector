@@ -72,7 +72,7 @@ def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
     with open(dest_csv_file, "r") as file_obj:
         csv_file = csv.reader(file_obj)
         for row in csv_file:
-            id = row[27];
+            id = row[0];
             os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
             with open("/tmp/tags.json", "r") as file_tag:
                 tag_result=json.load(file_tag)
