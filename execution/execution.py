@@ -71,7 +71,11 @@ def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
     print("appending inventory tags to csv")
     with open(dest_csv_file, "r") as file_obj:
         csv_file = csv.reader(file_obj)
+        firstRow = True
         for row in csv_file:
+            if (firstRow):
+                firstRow = False;
+                continue
             id = row[0];
             print(row)
             print("finding id : " + id)
