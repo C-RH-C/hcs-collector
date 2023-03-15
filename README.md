@@ -41,7 +41,7 @@ Basically, you need to configure [crhc-cli](https://github.com/C-RH-C/crhc-cli) 
 After that, you can execute 
 
   - `./hcs-collector collect` to download daily the files, feel free to add in your cronjob and
-  - `./hcs-collector process` anytime to proceed with the analysis.
+  - `./hcs-collector process [--tag='tagname']` anytime to proceed with the analysis.  Specifying a tag will break the analysis down by the values of that tag.  Tagging vms can be done with the insights client, by specifying a tag file in /etc/insights-client/tags.yaml 
 
 
 ---
