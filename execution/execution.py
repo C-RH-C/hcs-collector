@@ -5,6 +5,7 @@ TODO
 import csv
 import shutil
 import os
+import subprocess
 import json
 from datetime import datetime
 from setup_env import setup_env
@@ -62,7 +63,7 @@ def initial_directory_setup():
     shutil.copy(CSV_FILE, DEST_CSV_FILE)
     shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
     shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
-    append_tags_to_inventory_json(DEST_JSON_FILE_SWATCH, crhc_cli)
+    append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
     # print(base_dir)
 
 def append_tags_to_inventory_json(dest_json_file, crhc_cli):
@@ -73,11 +74,11 @@ def append_tags_to_inventory_json(dest_json_file, crhc_cli):
             for inventoryItem in data['results']:
                 # print(row)
                 # get the number of cores.
-                id = inventoryItem['id']
+                id = inventoryItem.get('server').get('id')
                 print('Reading data for id : ' + id)
                 system_profile = inventoryItem['system_profile']
                 # get the tags for the system
-                tag_result = os.system(crhc_cli + "./crhc get /api/inventory/v1/hosts/" + id + "/tags")
+                tag_result = subprocess.check_output(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags", shell=True)
                 print(tag_result)
                 if ('results' in tag_result):
                     print ('found a tag')
