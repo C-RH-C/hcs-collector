@@ -62,7 +62,27 @@ def initial_directory_setup():
     shutil.copy(CSV_FILE, DEST_CSV_FILE)
     shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
     shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
+    append_tags_to_inventory_json(DEST_JSON_FILE_SWATCH, crhc_cli)
     # print(base_dir)
+
+def append_tags_to_inventory_json(dest_json_file, crhc_cli):
+    print("appending inventory tags to json")
+    with open(dest_json_file, "r") as file_obj:
+        data = json.load(file_obj)
+        if ('results' in data):
+            for inventoryItem in data['results']:
+                # print(row)
+                # get the number of cores.
+                id = inventoryItem['id']
+                system_profile = inventoryItem['system_profile']
+                # get the tags for the system
+                tag_result = os.system(crhc_cli + "./crhc get /api/inventory/v1/hosts/" + id + "/tags")
+                if ('results' in tag_result):
+                    if (tag_result['results'].get(id)):
+                        tagid = tag_result['results'].get(id)
+                        inventoryItem['tags'] = tagid
+        json.dump(data,file_obj)
+
 
 
 def collect_data():
