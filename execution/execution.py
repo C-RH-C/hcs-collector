@@ -64,7 +64,33 @@ def initial_directory_setup():
     shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
     shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
     append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
+    append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
     # print(base_dir)
+
+def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
+    print("appending inventory tags to json")
+    with open(dest_csv_file, "r") as file_obj:
+        csv_file = csv.reader(file_obj)
+        for row in csv_file:
+            id = row[27];
+            os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
+            with open("/tmp/tags.json", "r") as file_tag:
+                tag_result=json.load(file_tag)
+                if ('results' in tag_result):
+                    if (tag_result['results'].get(id)):
+                        tagString="";
+                        firstTag = True;
+                        tags = tag_result['results'].get(id)
+                        for tag in tags:
+                            if (firstTag):
+                                firstTag = False
+                            else:
+                                tagString = tagString + ";"
+                            tagString = tagString + tag.key + "=" + tag.value
+                        row.append(tagString)
+    with open(dest_csv_file, "w") as file_obj:
+        mywriter = csv.writer(file_obj,",")
+        mywriter.writerows(csv_file)
 
 def append_tags_to_inventory_json(dest_json_file, crhc_cli):
     print("appending inventory tags to json")
