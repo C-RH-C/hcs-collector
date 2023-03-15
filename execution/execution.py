@@ -75,7 +75,6 @@ def append_tags_to_inventory_json(dest_json_file, crhc_cli):
                 # print(row)
                 # get the number of cores.
                 id = inventoryItem.get('server').get('id')
-                print('Reading data for id : ' + id)
                 system_profile = inventoryItem['system_profile']
                 # get the tags for the system
                 os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
@@ -98,11 +97,11 @@ def collect_data():
     initial_directory_setup()
 
 
-def process_data():
+def process_data(tag):
     """
     TODO
     """
-    # print("process data")
+    print("process data with a tag of " + tag)
 
     base_dir = setup_env.view_current_conf()['base_dir']
 

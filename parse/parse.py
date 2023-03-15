@@ -57,8 +57,12 @@ def collect():
 
 
 @main.command()
-def process():
+@main.option("--tag", default='none', help="The tag registeredt with insights, by which you would like the analysis broen down")
+def process(tag):
     """
     Only process the local information with no necessity of download
     """
-    execution.process_data()
+    execution.process_data(tag)
+
+
+
