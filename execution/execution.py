@@ -71,29 +71,28 @@ def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
     print("appending inventory tags to csv")
     with open(dest_csv_file, "r") as file_obj:
         csv_file = csv.reader(file_obj)
-        firstRow = True
+        first_row = True
         for row in csv_file:
-            if (firstRow):
-                firstRow = False
+            if (first_row):
+                first_row = False
                 continue
             id = row[0]
-            print(row)
-            print("finding id : " + id)
             os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
             with open("/tmp/tags.json", "r") as file_tag:
                 tag_result=json.load(file_tag)
                 if ('results' in tag_result):
                     if (tag_result['results'].get(id)):
-                        tagString=""
-                        firstTag = True
+                        tag_string=""
+                        first_tag = True
                         tags = tag_result['results'].get(id)
                         for tag in tags:
-                            if (firstTag):
-                                firstTag = False
+                            if (first_tag):
+                                first_tag = False
                             else:
-                                tagString = tagString + ";"
-                            tagString = tagString + tag.get("key") + "=" + tag.get("value")
-                        row.append(tagString)
+                                tag_string = tag_string + ";"
+                            tag_string = tag_string + tag.get("key") + "=" + tag.get("value")
+                            print(tag_string)
+                        row.append(tag_string)
     with open(dest_csv_file, "w") as file_obj:
         mywriter = csv.writer(file_obj,delimiter=',') # ,quotechar='"'
         mywriter.writerows(csv_file)
