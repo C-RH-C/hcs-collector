@@ -8,6 +8,7 @@ setup_env.standard_conf_file()
 
 
 @click.group()
+@click.option("--tag", default='none', help="The tag registered with insights, by which you would like the analysis broen down")
 def main():
     """
     Command line tool for HCS - Hybrid Commited Spend
@@ -57,7 +58,6 @@ def collect():
 
 
 @main.command()
-@main.option("--tag", default='none', help="The tag registeredt with insights, by which you would like the analysis broen down")
 def process(tag):
     """
     Only process the local information with no necessity of download
