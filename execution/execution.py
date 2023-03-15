@@ -92,7 +92,7 @@ def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
                                 firstTag = False
                             else:
                                 tagString = tagString + ";"
-                            tagString = tagString + tag.key + "=" + tag.value
+                            tagString = tagString + tag.get("key") + "=" + tag.get("value")
                         row.append(tagString)
     with open(dest_csv_file, "w") as file_obj:
         mywriter = csv.writer(file_obj,",")
