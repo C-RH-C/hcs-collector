@@ -68,7 +68,7 @@ def initial_directory_setup():
     # print(base_dir)
 
 def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
-    print("appending inventory tags to json")
+    print("appending inventory tags to csv")
     with open(dest_csv_file, "r") as file_obj:
         csv_file = csv.reader(file_obj)
         for row in csv_file:
