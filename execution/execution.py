@@ -93,8 +93,9 @@ def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
                             tag_string = tag_string + tag.get("key") + "=" + tag.get("value")
                             print(tag_string)
                         row.append(tag_string)
-    with open(dest_csv_file, "w") as file_csv:
+    with open(dest_csv_file, "w+") as file_csv:
         mywriter = csv.writer(file_csv,delimiter=',') # ,quotechar='"'
+        print("created a mywriter")
         mywriter.writerows(csv_file)
 
 def append_tags_to_inventory_json(dest_json_file, crhc_cli):
