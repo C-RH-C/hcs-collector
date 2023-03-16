@@ -69,6 +69,7 @@ def initial_directory_setup():
 
 def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
     print("appending inventory tags to csv")
+    results = []
     with open(dest_csv_file, "r") as file_obj:
         csv_file = csv.reader(file_obj)
         first_row = True
@@ -92,12 +93,13 @@ def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
                                 tag_string = tag_string + ";"
                             tag_string = tag_string + tag.get("key") + "=" + tag.get("value")
                         row.append(tag_string)
+            results.append(row)
 
     with open(dest_csv_file, "w+") as f:
         mywriter = csv.writer(f,delimiter=',') # ,quotechar='"'
-        print(type(csv_file))
-        print(len(csv_file))
-        mywriter.writerows(csv_file)
+        print(type(results))
+        print(len(results))
+        mywriter.writerows(results)
 
 def append_tags_to_inventory_json(dest_json_file, crhc_cli):
     print("appending inventory tags to json")
