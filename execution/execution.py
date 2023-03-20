@@ -215,7 +215,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
                 
 
                 if ('69' in installed_product) or ('479' in installed_product):
-                    if (tag != "none" & tagvalue!=""):
+                    if (tag != "none" and tagvalue!=""):
                         count_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
 
                     if infrastructure_type == "physical":
