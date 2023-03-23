@@ -164,13 +164,13 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     ondemand_rhel(path_to_csv_dir, csv_files_list, tag)
     print("## RHEL Add-ons")
     print("")
-    ondemand_rhel_related_products_from_json(path_to_json_dir, json_files_list)
+    ondemand_rhel_related_products_from_json(path_to_json_dir, json_files_list, tag)
     print("## Virtualization")
     print("")
-    ondemand_virtualization(path_to_csv_dir, csv_files_list)
+    ondemand_virtualization(path_to_csv_dir, csv_files_list, tag)
     print("## Middleware")
     print("")
-    ondemand_mw_from_json(path_to_json_dir, json_files_list)
+    ondemand_mw_from_json(path_to_json_dir, json_files_list, tag)
 
 def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     """
@@ -206,7 +206,6 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
                 # print(row)
                 infrastructure_type = row[21]
                 installed_product = row[35]
-                print(len(row))
                 vmtags = row[len(row)-1]
                 tagvalue=""
                 if (tag != "none"):
@@ -216,7 +215,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
 
                 if ('69' in installed_product) or ('479' in installed_product):
                     if (tag != "none" and tagvalue!=""):
-                        count_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
+                        count_rhel_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
 
                     if infrastructure_type == "physical":
                         stage_rhel_physical = stage_rhel_physical + 1
@@ -243,11 +242,11 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     print("On-Demand, Physical Node .....................: {}".format(rhel_physical))
     if (tag != "none"):
         for tagvalue in max_by_tag:
-            print("    " + tagvalue + "...........................: {}".format(max_by_tag[tagvalue]['physical']))
+            pretty_print(2,tagvalue, max_by_tag[tagvalue]['physical'])
     print("On-Demand, Virtual Node ......................: {}".format(rhel_virtual))
     if (tag != "none"):
         for tagvalue in max_by_tag:
-            print("    " + tagvalue + "...........................: {}".format(max_by_tag[tagvalue]['virtual']))
+            pretty_print(2,tagvalue, max_by_tag[tagvalue]['virtual'])
     print("Unknown ......................................: {}".format(unknown))
     print("")
 
@@ -276,7 +275,7 @@ def update_max_value_by_tag(stage_by_tag, max_by_tag):
             max_by_tag.setdefault(tagvalue, { 'physical': stage_by_tag[tagvalue]['physical'], 'virtual': stage_by_tag[tagvalue]['virtual'], 'unknown': stage_by_tag[tagvalue]['unknown']})
             
 
-def count_value_by_tag(infrastructure_type, stage_by_tag, tagvalue):
+def count_rhel_value_by_tag(infrastructure_type, stage_by_tag, tagvalue):
     if (tagvalue in stage_by_tag):
         tag_summary = stage_by_tag.get(tagvalue)
     else:
@@ -300,7 +299,7 @@ def get_tag_value (taglist, tag):
             tag_value = starting_with_tag[starting_with_tag.index("=")+1:]
     return tag_value
 
-def ondemand_virtualization(path_to_csv_dir, csv_files_list):
+def ondemand_virtualization(path_to_csv_dir, csv_files_list, tag):
     """
     TODO
     """
@@ -313,11 +312,12 @@ def ondemand_virtualization(path_to_csv_dir, csv_files_list):
     CURRENT_TIMEFRAME_MONTH = path_to_csv_dir.split("/")[5]
     CURRENT_TIMEFRAME = CURRENT_TIMEFRAME_YEAR + "-" + CURRENT_TIMEFRAME_MONTH
 
+    max_by_tag = {}
+    virtualization_sockets = 0
     for sheet in csv_files_list:
 
-        virtualization_sockets = 0
         stage_virtualization_sockets = 0
-
+        stage_by_tag = {}
         
         
 
@@ -328,6 +328,11 @@ def ondemand_virtualization(path_to_csv_dir, csv_files_list):
 
                 infrastructure_type = row[21]
                 installed_product = row[35]
+                vmtags = row[len(row)-1]
+                tagvalue=""
+                if (tag != "none"):
+                    #check if tag exists in vmtags
+                    tagvalue = get_tag_value(vmtags, tag)
 
                 number_of_sockets = 1
                 if (row[11].isnumeric()):
@@ -335,17 +340,42 @@ def ondemand_virtualization(path_to_csv_dir, csv_files_list):
 
                 # RHV is covered by products 150, 328, and 415 
                 if ('150' in installed_product) or ('328' in installed_product) or ('415' in installed_product):
+                    if (tag != "none" and tagvalue!=""):
+                        count_rhev_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
                     stage_virtualization_sockets = stage_virtualization_sockets + number_of_sockets
 
 
-    if stage_virtualization_sockets > virtualization_sockets:
-        virtualization_sockets = stage_virtualization_sockets
-        stage_virtualization_sockets = 0
+        if stage_virtualization_sockets > virtualization_sockets:
+            virtualization_sockets = stage_virtualization_sockets
+            update_rhv_value_by_tag(stage_by_tag, max_by_tag)
 
     
 
     print("On-Demand, Virtualization Sockets ............: {}".format(virtualization_sockets))
+    if (tag != "none"):
+        for tagvalue in max_by_tag:
+            pretty_print(2,tagvalue, max_by_tag[tagvalue]['sockets'])
     print("")
+
+def update_rhv_value_by_tag(stage_by_tag, max_by_tag):
+    for tagvalue in stage_by_tag:
+
+        if (tagvalue in max_by_tag):
+            if (stage_by_tag[tagvalue]['sockets'] > max_by_tag[tagvalue]['sockets']):
+                max_by_tag[tagvalue]['sockets'] = stage_by_tag[tagvalue]['sockets']
+            
+        else:
+            max_by_tag.setdefault(tagvalue, { 'sockets': stage_by_tag[tagvalue]['sockets']})
+
+def count_rhev_value_by_tag(sockets, stage_by_tag, tagvalue):
+    if (tagvalue in stage_by_tag):
+        tag_summary = stage_by_tag.get(tagvalue)
+    else:
+        tag_summary = stage_by_tag.setdefault(tagvalue, { 'sockets':0})
+
+    tag_summary['sockets'] = tag_summary['sockets'] +sockets
+    
+
 def ondemand_rhel_related_products_from_json(path_to_json_dir, json_files_list):
     """
     TODO
