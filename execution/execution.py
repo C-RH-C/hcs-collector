@@ -251,6 +251,17 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     print("Unknown ......................................: {}".format(unknown))
     print("")
 
+def pretty_print(indent, msg, value):
+    pretty_msg = ""
+    for x in range(indent):
+        pretty_msg = pretty_msg +" "
+    pretty_msg = pretty_msg + msg
+    msg_len = len(pretty_msg)
+    for x in range(msg_len,45):
+        pretty_msg = pretty_msg = "."
+    pretty_msg = pretty_msg + ":" + value
+    return pretty_msg
+
 def update_max_value_by_tag(stage_by_tag, max_by_tag):
     for tagvalue in stage_by_tag:
 
