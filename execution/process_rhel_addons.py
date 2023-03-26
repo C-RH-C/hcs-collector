@@ -1,6 +1,6 @@
 import json
 
-def ondemand_rhel_related_products_from_json(path_to_json_dir, json_files_list):
+def ondemand_rhel_related_products_from_json(path_to_json_dir, json_files_list, tag):
     """
     TODO
     """
