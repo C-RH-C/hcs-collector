@@ -1,6 +1,6 @@
 import json
 
-def ondemand_mw_from_json(path_to_json_dir, json_files_list):
+def ondemand_mw_from_json(path_to_json_dir, json_files_list, tag):
     """
     TODO
     """
