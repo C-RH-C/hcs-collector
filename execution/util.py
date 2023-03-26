@@ -6,14 +6,14 @@ def pretty_print(indent, msg, value):
     msg_len = len(pretty_msg)
     for x in range(msg_len,45):
         pretty_msg = pretty_msg = "."
-    pretty_msg = pretty_msg + ":" + value
+    pretty_msg = pretty_msg + ":" + str(value)
     return pretty_msg
 
 def get_tag_value (taglist, tag):
     print(taglist)
     tag_value=""
     if (tag in taglist):
-        print(" found " + tag + " in " + taglist)
+        # print(" found " + tag + " in " + taglist)
         starting_with_tag = taglist[taglist.index(tag):]
         if (";" in starting_with_tag):
             starting_with_tag = starting_with_tag[:starting_with_tag.index(";")]
