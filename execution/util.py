@@ -5,7 +5,7 @@ def pretty_print(indent, msg, value):
     pretty_msg = pretty_msg + msg
     msg_len = len(pretty_msg)
     for x in range(msg_len,45):
-        pretty_msg = pretty_msg = "."
+        pretty_msg = pretty_msg + "."
     pretty_msg = pretty_msg + ":" + str(value)
     print (pretty_msg)
 
