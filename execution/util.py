@@ -10,10 +10,10 @@ def pretty_print(indent, msg, value):
     return pretty_msg
 
 def get_tag_value (taglist, tag):
-    print(taglist)
+    #print(taglist)
     tag_value=""
     if (tag in taglist):
-        # print(" found " + tag + " in " + taglist)
+        print(" found " + tag + " in " + taglist)
         starting_with_tag = taglist[taglist.index(tag):]
         if (";" in starting_with_tag):
             starting_with_tag = starting_with_tag[:starting_with_tag.index(";")]
