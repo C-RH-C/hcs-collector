@@ -154,6 +154,20 @@ On-Demand, Physical Node .....................: 973
 On-Demand, Virtual Node ......................: 5092
 Unknown ......................................: 0
 
+## RHEL Add-ons
+
+On-Demand, HA Node ...........................: 12
+On-Demand, Directory Server Node .............: 20
+
+## Virtualization
+
+On-Demand, Virtualization Sockets ............: 192
+
+## Middleware
+
+On-Demand, JBoss EAP Cores ...................: 312
+On-Demand, JWS Cores .........................: 474
+
 
 ## RHEL On-Demand
 
@@ -161,6 +175,60 @@ Max Concurrent RHEL On-Demand, referrent to ..: 2022-04
 On-Demand, Physical Node .....................: 978
 On-Demand, Virtual Node ......................: 5500
 Unknown ......................................: 0
+
+## RHEL Add-ons
+
+On-Demand, HA Node ...........................: 12
+On-Demand, Directory Server Node .............: 20
+
+## Virtualization
+
+On-Demand, Virtualization Sockets ............: 192
+
+## Middleware
+
+On-Demand, JBoss EAP Cores ...................: 324
+On-Demand, JWS Cores .........................: 496
+```
+
+Another option is to use the --tag to break down the overall usage by tag
+
+```
+$ ./hcs-collector.py process --tag=environment
+## RHEL On-Demand
+
+Max Concurrent RHEL On-Demand, referrent to ..: 2022-04
+On-Demand, Physical Node .....................: 978
+  Dev ........................................: 278
+  Prod .......................................: 700
+On-Demand, Virtual Node ......................: 5500
+  Dev ........................................: 1500
+  Prod .......................................: 4000
+Unknown ......................................: 0
+
+## RHEL Add-ons
+
+On-Demand, HA Node ...........................: 12
+  Dev ........................................: 2
+  Prod .......................................: 10
+On-Demand, Directory Server Node .............: 20
+  Dev ........................................: 0
+  Prod .......................................: 20
+
+## Virtualization
+
+On-Demand, Virtualization Sockets ............: 192
+  Dev ........................................: 0
+  Prod .......................................: 192
+
+## Middleware
+
+On-Demand, JBoss EAP Cores ...................: 324
+  Dev ........................................: 120
+  Prod .......................................: 204
+On-Demand, JWS Cores .........................: 196
+  Dev ........................................: 68
+  Prod .......................................: 128
 ```
 
 
