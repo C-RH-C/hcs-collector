@@ -24,7 +24,8 @@ def get_tag_value (taglist, tag):
 def get_tag_value_from_json (json_tag_array, tag):
     #print(taglist)
     tag_value=""
-    for vmtag in json_tag_array:
-        if (vmtag.get('key') == tag):
-          tag_value = vmtag.get('value')
+    if (json_tag_array):
+        for vmtag in json_tag_array:
+            if (vmtag.get('key') == tag):
+                tag_value = vmtag.get('value')
     return tag_value
