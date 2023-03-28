@@ -47,7 +47,8 @@ def ondemand_mw_from_json(path_to_json_dir, json_files_list, tag):
 
                     if (tag != "none"):
                         #check if tag exists in vmtags
-                        tagvalue = util.get_tag_value_from_json(inventoryItem['server']['tags'], tag)
+                        print (inventoryItem['server'])
+                        tagvalue = util.get_tag_value_from_json(inventoryItem['server'].get('tags'), tag)
 
                     installed_product_list = []
                     for product in installed_products:
