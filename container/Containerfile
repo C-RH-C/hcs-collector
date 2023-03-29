@@ -1,0 +1,39 @@
+FROM registry.redhat.io/rhel9/python-39
+
+USER root
+
+#RUN dnf install python36 -y
+
+RUN dnf install unzip -y
+
+RUN mkdir /hcs-collector
+
+RUN mkdir -p /a/b/hcs-data
+
+WORKDIR /hcs-collector
+
+ADD hcs-collector-main.zip .
+
+RUN unzip hcs-collector-main.zip
+
+WORKDIR /hcs-collector/hcs-collector-main
+
+RUN pip install click
+
+WORKDIR /hcs-collector
+
+COPY crhc .
+
+COPY process.sh .
+
+COPY collect.sh .
+
+COPY hcs_collect.conf /opt/app-root/src/.hcs_collect.conf
+
+RUN chmod +x crhc process.sh collect.sh
+
+ENV TOKEN = ""
+
+ENTRYPOINT ["sh","-c"]
+
+CMD ["/hcs-collector/collect.sh"]
