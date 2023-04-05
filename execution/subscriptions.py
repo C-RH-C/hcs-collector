@@ -22,7 +22,7 @@ def download(swatchfile, crhc_cli):
                   batch_count=0
                   swatch_batch = []
           # just process the last few ids
-          if (swatch_batch.count >0):
+          if (len(swatch_batch) >0):
               append_tags_to_swatch_array(swatch_batch, crhc_cli)
     # we've iterated over all items and got the tags - now write the appended values back to the file
     with open(swatchfile, "w") as file_obj:
