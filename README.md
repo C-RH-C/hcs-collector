@@ -191,7 +191,9 @@ On-Demand, JBoss EAP Cores ...................: 324
 On-Demand, JWS Cores .........................: 496
 ```
 
-Another option is to use the --tag to break down the overall usage by tag.  Tags can be defined by creating the file /etc/insights-client/tags.yaml.  The contents of the file are a set of named value pairs - e.g. environment=Dev, or environment=Prod.  After creating the file, when the insights-client next runs, the tags will be uploaded to insights and then you can break down the usages based on those tags.  Systems which are not tagged will be counted in the overall number, but not in the breakdown.  You can find out more about how to set custom tags on your systems [here](https://access.redhat.com/documentation/en-us/red_hat_insights/2023/html/client_configuration_guide_for_red_hat_insights/con-insights-client-tagging-overview_insights-cg-adding-tags#con-insights-client-custom-system-tagging_insights-cg-adding-tags).
+Another option is to use the --tag to break down the overall usage by tag.  This is so that you can break down your usage by environment, or business unit or any other criteria, and can help with internal cross charging.
+ 
+Tags can be defined by creating the file /etc/insights-client/tags.yaml.  The contents of the file are a set of named value pairs - e.g. environment=Dev, or environment=Prod.  After creating the file, when the insights-client next runs, the tags will be uploaded to insights and then you can break down the usages based on those tags.  Systems which are not tagged will be counted in the overall number, but not in the breakdown.  You can find out more about how to set custom tags on your systems [here](https://access.redhat.com/documentation/en-us/red_hat_insights/2023/html/client_configuration_guide_for_red_hat_insights/con-insights-client-tagging-overview_insights-cg-adding-tags#con-insights-client-custom-system-tagging_insights-cg-adding-tags).
 
 ```
 $ ./hcs-collector.py process --tag=environment
