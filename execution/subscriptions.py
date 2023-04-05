@@ -10,15 +10,15 @@ def download(swatchfile, crhc_cli):
         if ('data' in result):
           swatch_data = result['data']
           batch_count=0
-          swatch_batch = [];
+          swatch_batch = []
           crhc_api = "get /api/inventory/v1/hosts/"
           for swatch_item in swatch_data:
               if (batch_count< batch_size-1):
-                  swatch_batch.append('swatch_item')
+                  swatch_batch.append(swatch_item)
                   batch_count = batch_count+1
               else:
                   # we've now got to the batch size - so going to go and get the tags and augment the values
-                  swatch_batch.append('swatch_item')
+                  swatch_batch.append(swatch_item)
                   append_tags_to_swatch_array(swatch_batch, crhc_api)
                   batch_count=0
                   swatch_batch = []
@@ -36,7 +36,7 @@ def append_tags_to_swatch_array(swatch_item_array, crhc_cli):
     crhc_api = " get /api/inventory/v1/hosts/"
     for swatch_item in swatch_item_array:
       if (is_first):
-          crhc_api = crhc_api + swatch_item['inventory_id']
+          crhc_api = crhc_api + swatch_item.get('inventory_id')
           is_first = False
     else:
           crhc_api = crhc_api + ","+  swatch_item['inventory_id']
