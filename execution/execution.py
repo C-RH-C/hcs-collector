@@ -13,6 +13,8 @@ from execution import process_mw
 from execution import process_rhel
 from execution import process_virt
 from execution import process_rhel_addons
+from execution import inventory
+from execution import subscriptions
 
 
 def initial_directory_setup():
@@ -59,16 +61,20 @@ def initial_directory_setup():
     crhc_cli = setup_env.view_current_conf()['crhc_cli']
     print(crhc_cli)
 
-    print("Cleaning the current cache files")
-    os.system(crhc_cli + " ts clean")
+    #print("Cleaning the current cache files")
+    #os.system(crhc_cli + " ts clean")
 
-    print("Downloading and creating the new match info")
-    os.system(crhc_cli + " ts match")
-    shutil.copy(CSV_FILE, DEST_CSV_FILE)
-    shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
-    shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
-    append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
-    append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
+    #print("Downloading and creating the new match info")
+
+    #os.system(crhc_cli + " ts match")
+    #shutil.copy(CSV_FILE, DEST_CSV_FILE)
+    #shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
+    #shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
+    subscriptions.download(DEST_JSON_FILE_SWATCH, crhc_cli)
+    #inventory.download(DEST_JSON_FILE_INV,crhc_cli)
+
+    #append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
+    #append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
     # print(base_dir)
 
 def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
