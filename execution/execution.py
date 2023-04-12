@@ -13,6 +13,7 @@ from execution import process_mw
 from execution import process_rhel
 from execution import process_virt
 from execution import process_rhel_addons
+from execution import collect_tags
 
 
 def initial_directory_setup():
@@ -67,62 +68,11 @@ def initial_directory_setup():
     shutil.copy(CSV_FILE, DEST_CSV_FILE)
     shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
     shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
-    append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
-    append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
+    collect_tags.append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
+    collect_tags.append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
     # print(base_dir)
 
-def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
-    print("appending inventory tags to csv")
-    results = []
-    with open(dest_csv_file, "r") as file_obj:
-        csv_file = csv.reader(file_obj)
-        first_row = True
-        for row in csv_file:
-            if (first_row):
-                first_row = False
-                continue
-            id = row[0]
-            os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
-            with open("/tmp/tags.json", "r") as file_tag:
-                tag_result=json.load(file_tag)
-                if ('results' in tag_result):
-                    if (tag_result['results'].get(id)):
-                        tag_string=""
-                        first_tag = True
-                        tags = tag_result['results'].get(id)
-                        for tag in tags:
-                            if (first_tag):
-                                first_tag = False
-                            else:
-                                tag_string = tag_string + ";"
-                            tag_string = tag_string + tag.get("key") + "=" + tag.get("value")
-                        row.append(tag_string)
-            results.append(row)
 
-    with open(dest_csv_file, "w+") as f:
-        mywriter = csv.writer(f,delimiter=',') # ,quotechar='"'
-        mywriter.writerows(results)
-
-def append_tags_to_inventory_json(dest_json_file, crhc_cli):
-    print("appending inventory tags to json")
-    with open(dest_json_file, "r") as file_obj:
-        data = json.load(file_obj)
-        if ('results' in data):
-            for inventoryItem in data['results']:
-                # print(row)
-                # get the number of cores.
-                id = inventoryItem.get('server').get('id')
-                system_profile = inventoryItem['system_profile']
-                # get the tags for the system
-                os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
-                with open("/tmp/tags.json", "r") as file_tag:
-                    tag_result=json.load(file_tag)
-                    if ('results' in tag_result):
-                        if (tag_result['results'].get(id)):
-                            tagid = tag_result['results'].get(id)
-                            inventoryItem.get('server')['tags'] = tagid
-    with open(dest_json_file, "w") as file_obj:
-        json.dump(data,file_obj, indent=2)
 
 
 
