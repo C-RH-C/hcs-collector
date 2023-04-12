@@ -61,74 +61,9 @@ def initial_directory_setup():
     crhc_cli = setup_env.view_current_conf()['crhc_cli']
     print(crhc_cli)
 
-    #print("Cleaning the current cache files")
-    #os.system(crhc_cli + " ts clean")
-
-    #print("Downloading and creating the new match info")
-
-    #os.system(crhc_cli + " ts match")
-    #shutil.copy(CSV_FILE, DEST_CSV_FILE)
-    #shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
-    #shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
     subscriptions.download(DEST_JSON_FILE_SWATCH, crhc_cli)
-    #inventory.download(DEST_JSON_FILE_INV,crhc_cli)
+    inventory.download(DEST_JSON_FILE_INV,crhc_cli)
 
-    #append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
-    #append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
-    # print(base_dir)
-
-def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
-    print("appending inventory tags to csv")
-    results = []
-    with open(dest_csv_file, "r") as file_obj:
-        csv_file = csv.reader(file_obj)
-        first_row = True
-        for row in csv_file:
-            if (first_row):
-                first_row = False
-                continue
-            id = row[0]
-            os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
-            with open("/tmp/tags.json", "r") as file_tag:
-                tag_result=json.load(file_tag)
-                if ('results' in tag_result):
-                    if (tag_result['results'].get(id)):
-                        tag_string=""
-                        first_tag = True
-                        tags = tag_result['results'].get(id)
-                        for tag in tags:
-                            if (first_tag):
-                                first_tag = False
-                            else:
-                                tag_string = tag_string + ";"
-                            tag_string = tag_string + tag.get("key") + "=" + tag.get("value")
-                        row.append(tag_string)
-            results.append(row)
-
-    with open(dest_csv_file, "w+") as f:
-        mywriter = csv.writer(f,delimiter=',') # ,quotechar='"'
-        mywriter.writerows(results)
-
-def append_tags_to_inventory_json(dest_json_file, crhc_cli):
-    print("appending inventory tags to json")
-    with open(dest_json_file, "r") as file_obj:
-        data = json.load(file_obj)
-        if ('results' in data):
-            for inventoryItem in data['results']:
-                # print(row)
-                # get the number of cores.
-                id = inventoryItem.get('server').get('id')
-                system_profile = inventoryItem['system_profile']
-                # get the tags for the system
-                os.system(crhc_cli + " get /api/inventory/v1/hosts/" + id + "/tags > /tmp/tags.json")
-                with open("/tmp/tags.json", "r") as file_tag:
-                    tag_result=json.load(file_tag)
-                    if ('results' in tag_result):
-                        if (tag_result['results'].get(id)):
-                            tagid = tag_result['results'].get(id)
-                            inventoryItem.get('server')['tags'] = tagid
-    with open(dest_json_file, "w") as file_obj:
-        json.dump(data,file_obj, indent=2)
 
 
 
@@ -171,13 +106,13 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     print("")
     print("## RHEL On-Demand")
     print("")
-    process_rhel.ondemand_rhel(path_to_csv_dir, csv_files_list, tag)
+    process_rhel.ondemand_rhel(path_to_json_dir, json_files_list, tag)
     print("## RHEL Add-ons")
     print("")
     process_rhel_addons.ondemand_rhel_related_products_from_json(path_to_json_dir, json_files_list, tag)
     print("## Virtualization")
     print("")
-    process_virt.ondemand_virtualization(path_to_csv_dir, csv_files_list, tag)
+    process_virt.ondemand_virtualization(path_to_json_dir, json_files_list, tag)
     print("## Middleware")
     print("")
     process_mw.ondemand_mw_from_json(path_to_json_dir, json_files_list, tag)

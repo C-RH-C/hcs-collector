@@ -3,7 +3,7 @@ import os
 import json
 
 def download(swatchfile, crhc_cli):
-    batch_size=10
+    batch_size=50
     os.system(crhc_cli + " swatch list_all > " + swatchfile)
     with open(swatchfile, "r") as file_obj:
         result = json.load(file_obj)
@@ -42,7 +42,7 @@ def append_tags_to_swatch_array(swatch_item_array, crhc_cli):
     
     if (not is_first):
         # This means there is at least one entry in the array
-        print("api call is : " + crhc_cli + crhc_api + "/tags > /tmp/tags.json")
+        #print("api call is : " + crhc_cli + crhc_api + "/tags > /tmp/tags.json")
         os.system(crhc_cli + crhc_api + "/tags > /tmp/tags.json")
         with open("/tmp/tags.json", "r") as file_tag:
             tag_result=json.load(file_tag)

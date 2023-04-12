@@ -1,7 +1,7 @@
-import csv
+import json
 from execution import util
 
-def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
+def ondemand_rhel(path_to_json_dir, json_files_list, tag):
     """
     TODO
     """
@@ -10,8 +10,8 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     # print(path_to_csv_dir)
     # print(csv_files_list)
 
-    CURRENT_TIMEFRAME_YEAR = path_to_csv_dir.split("/")[4]
-    CURRENT_TIMEFRAME_MONTH = path_to_csv_dir.split("/")[5]
+    CURRENT_TIMEFRAME_YEAR = path_to_json_dir.split("/")[4]
+    CURRENT_TIMEFRAME_MONTH = path_to_json_dir.split("/")[5]
     CURRENT_TIMEFRAME = CURRENT_TIMEFRAME_YEAR + "-" + CURRENT_TIMEFRAME_MONTH
 
     # max values for the month
@@ -20,7 +20,8 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     unknown = 0
     max_by_tag = {}
 
-    for sheet in csv_files_list:
+    for jsonFile in json_files_list:
+
 
         #counted values for this sheet/day
         stage_rhel_physical = 0
@@ -28,27 +29,25 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
         stage_unknown = 0
         stage_by_tag = {}
 
-        with open(path_to_csv_dir + "/" + sheet, "r") as file_obj:
-            csv_file = csv.reader(file_obj)
+        with open(path_to_json_dir + "/" + jsonFile, "r") as file_obj:
+            data = json.load(file_obj)
             
-            for row in csv_file:
+            if ('data' in data):
+                for swatch_item in data['data']:
                 # print(row)
-                infrastructure_type = row[21]
-                installed_product = row[35]
-                vmtags = row[len(row)-1]
-                tagvalue=""
-                if (tag != "none"):
-                    #check if tag exists in vmtags
-                    tagvalue = util.get_tag_value(vmtags, tag)
-                
-
-                if ('69' in installed_product) or ('479' in installed_product):
+                    infrastructure_type = swatch_item.get('hardware_type')
+                    vmtags = swatch_item.get('tags')
+                    tagvalue=""
+                    if (tag != "none"):
+                        #check if tag exists in vmtags
+                        tagvalue = util.get_tag_value_from_json(vmtags, tag)
+                    
                     if (tag != "none" and tagvalue!=""):
                         count_rhel_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
 
-                    if infrastructure_type == "physical":
+                    if infrastructure_type == "PHYSICAL":
                         stage_rhel_physical = stage_rhel_physical + 1
-                    elif infrastructure_type == "virtual":
+                    elif infrastructure_type == "VIRTUALIZED":
                         stage_rhel_virtual = stage_rhel_virtual + 1
                     else:
                         stage_unknown = stage_unknown + 1
@@ -100,9 +99,9 @@ def count_rhel_value_by_tag(infrastructure_type, stage_by_tag, tagvalue):
         tag_summary = stage_by_tag.get(tagvalue)
     else:
         tag_summary = stage_by_tag.setdefault(tagvalue, { 'physical':0, 'virtual': 0, 'unknown': 0})
-    if infrastructure_type == "physical":
+    if infrastructure_type == "PHYSICAL":
         tag_summary['physical'] = tag_summary['physical'] +1
-    elif infrastructure_type == "virtual":
+    elif infrastructure_type == "VIRTUALIZED":
         tag_summary['virtual'] = tag_summary['virtual'] +1
     else:
         tag_summary['unknown'] = tag_summary['unknown'] +1
