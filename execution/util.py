@@ -1,3 +1,5 @@
+import datetime
+
 def pretty_print(indent, msg, value):
     pretty_msg = ""
     for x in range(indent):
@@ -29,3 +31,21 @@ def get_tag_value_from_json (json_tag_array, tag):
             if (vmtag.get('key') == tag):
                 tag_value = vmtag.get('value')
     return tag_value
+
+def is_fresh(stale_timestamp, year, month, day):
+    stale_date_string = stale_timestamp
+    is_fresh=True
+    if (len(stale_date_string) > 19):
+        stale_date_string = stale_timestamp[:19]
+    try: 
+        stale_date = datetime.datetime.strptime(stale_date_string,"%Y-%m-%dT%H:%M:%S")
+        current_time = datetime.datetime.today().time()
+        current_date = datetime.datetime(int(year),int(month),int(day), current_time.hour, current_time.minute, current_time.second)
+        if (stale_date < current_date):
+            is_fresh = False
+    except Exception as e:
+        is_fresh=True
+        print("Exception in is_fresh : " + str(e))
+    
+    return is_fresh
+

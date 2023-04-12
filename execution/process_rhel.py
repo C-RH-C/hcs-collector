@@ -20,6 +20,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     unknown = 0
     max_by_tag = {}
 
+
     for sheet in csv_files_list:
 
         #counted values for this sheet/day
@@ -42,7 +43,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
                     tagvalue = util.get_tag_value(vmtags, tag)
                 
 
-                if ('69' in installed_product) or ('479' in installed_product):
+                if (('69' in installed_product) or ('479' in installed_product)) and util.is_fresh(row[3],CURRENT_TIMEFRAME_YEAR, CURRENT_TIMEFRAME_MONTH, sheet[16:18]):
                     if (tag != "none" and tagvalue!=""):
                         count_rhel_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
 
