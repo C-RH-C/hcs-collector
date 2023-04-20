@@ -41,7 +41,7 @@ Basically, you need to configure [crhc-cli](https://github.com/C-RH-C/crhc-cli) 
 After that, you can execute 
 
   - `./hcs-collector collect` to download daily the files, feel free to add in your cronjob and
-  - `./hcs-collector process` anytime to proceed with the analysis.
+  - `./hcs-collector process [--tag='tagname']` anytime to proceed with the analysis.  Specifying a tag will break the analysis down by the values of that tag.  Tagging vms can be done with the insights client, by specifying a tag file in /etc/insights-client/tags.yaml 
 
 
 ---
@@ -154,6 +154,20 @@ On-Demand, Physical Node .....................: 973
 On-Demand, Virtual Node ......................: 5092
 Unknown ......................................: 0
 
+## RHEL Add-ons
+
+On-Demand, HA Node ...........................: 12
+On-Demand, Directory Server Node .............: 20
+
+## Virtualization
+
+On-Demand, Virtualization Sockets ............: 192
+
+## Middleware
+
+On-Demand, JBoss EAP Cores ...................: 312
+On-Demand, JWS Cores .........................: 474
+
 
 ## RHEL On-Demand
 
@@ -161,6 +175,64 @@ Max Concurrent RHEL On-Demand, referrent to ..: 2022-04
 On-Demand, Physical Node .....................: 978
 On-Demand, Virtual Node ......................: 5500
 Unknown ......................................: 0
+
+## RHEL Add-ons
+
+On-Demand, HA Node ...........................: 12
+On-Demand, Directory Server Node .............: 20
+
+## Virtualization
+
+On-Demand, Virtualization Sockets ............: 192
+
+## Middleware
+
+On-Demand, JBoss EAP Cores ...................: 324
+On-Demand, JWS Cores .........................: 496
+```
+
+Another option is to use the --tag to break down the overall usage by tag.  This is so that you can break down your usage by environment, or business unit or any other criteria, and can help with internal cross charging.
+ 
+Tags can be defined by creating the file /etc/insights-client/tags.yaml.  The contents of the file are a set of named value pairs - e.g. environment=Dev, or environment=Prod.  After creating the file, when the insights-client next runs, the tags will be uploaded to insights and then you can break down the usages based on those tags.  Systems which are not tagged will be counted in the overall number, but not in the breakdown.  You can find out more about how to set custom tags on your systems [here](https://access.redhat.com/documentation/en-us/red_hat_insights/2023/html/client_configuration_guide_for_red_hat_insights/con-insights-client-tagging-overview_insights-cg-adding-tags#con-insights-client-custom-system-tagging_insights-cg-adding-tags).
+ 
+Here's an example of using --tag=environment to break down the usage by environment.
+
+```
+$ ./hcs-collector.py process --tag=environment
+## RHEL On-Demand
+
+Max Concurrent RHEL On-Demand, referrent to ..: 2022-04
+On-Demand, Physical Node .....................: 978
+  Dev ........................................: 278
+  Prod .......................................: 700
+On-Demand, Virtual Node ......................: 5500
+  Dev ........................................: 1500
+  Prod .......................................: 4000
+Unknown ......................................: 0
+
+## RHEL Add-ons
+
+On-Demand, HA Node ...........................: 12
+  Dev ........................................: 2
+  Prod .......................................: 10
+On-Demand, Directory Server Node .............: 20
+  Dev ........................................: 0
+  Prod .......................................: 20
+
+## Virtualization
+
+On-Demand, Virtualization Sockets ............: 192
+  Dev ........................................: 0
+  Prod .......................................: 192
+
+## Middleware
+
+On-Demand, JBoss EAP Cores ...................: 324
+  Dev ........................................: 120
+  Prod .......................................: 204
+On-Demand, JWS Cores .........................: 196
+  Dev ........................................: 68
+  Prod .......................................: 128
 ```
 
 
