@@ -1,7 +1,6 @@
 import datetime
 import json
 import subprocess
-from execution import token
 
 def pretty_print(indent, msg, value):
     pretty_msg = ""
