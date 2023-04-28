@@ -1,6 +1,7 @@
 import os
 import csv 
 import json
+from execution import util
 
 def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
     print("appending inventory tags to csv")
@@ -36,7 +37,7 @@ def append_tags_to_inventory_csv(dest_csv_file, crhc_cli):
 
 def append_tags_to_swatch_rows(swatch_row_array, crhc_cli, results):
     is_first = True
-    crhc_api = " get /api/inventory/v1/hosts/"
+    crhc_api = "/api/inventory/v1/hosts/"
     for swatch_row in swatch_row_array:
       if (is_first):
           crhc_api = crhc_api + swatch_row[0]
@@ -46,26 +47,23 @@ def append_tags_to_swatch_rows(swatch_row_array, crhc_cli, results):
     
     if (not is_first):
         # This means there is at least one entry in the array
-        print("api call is : " + crhc_cli + crhc_api + "/tags > /tmp/tags.json")
-        os.system(crhc_cli + crhc_api + "/tags > /tmp/tags.json")
-        with open("/tmp/tags.json", "r") as file_tag:
-            tag_result=json.load(file_tag)
-            if ('results' in tag_result):
-                for swatch_row in swatch_row_array:
-                    id = swatch_row[0]
-                    if (tag_result['results'].get(id)):
-                        tag_string=""
-                        first_tag = True
-                        tags = tag_result['results'].get(id)
-                        for tag in tags:
-                            if (first_tag):
-                                first_tag = False
-                            else:
-                                tag_string = tag_string + ";"
-                            tag_string = tag_string + tag.get("key") + "=" + tag.get("value")
-                        swatch_row.append(tag_string)
-                    # append each modified row back into the results to be written back to the file
-                    results.append(swatch_row)
+        tag_result=util.make_crhc_api_call([crhc_cli,"get",crhc_api + "/tags"])
+        if ('results' in tag_result):
+            for swatch_row in swatch_row_array:
+                id = swatch_row[0]
+                if (tag_result['results'].get(id)):
+                    tag_string=""
+                    first_tag = True
+                    tags = tag_result['results'].get(id)
+                    for tag in tags:
+                        if (first_tag):
+                            first_tag = False
+                        else:
+                            tag_string = tag_string + ";"
+                        tag_string = tag_string + tag.get("key") + "=" + tag.get("value")
+                    swatch_row.append(tag_string)
+                # append each modified row back into the results to be written back to the file
+                results.append(swatch_row)
 
 def append_tags_to_inventory_json(dest_json_file, crhc_cli):
     print("appending inventory tags to json")

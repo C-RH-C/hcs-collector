@@ -41,9 +41,9 @@ def ondemand_virtualization(path_to_csv_dir, csv_files_list, tag):
                     number_of_sockets = int(row[11])
 
                 # RHV is covered by products 150, 328, and 415 
-                if ('150' in installed_product) or ('328' in installed_product) or ('415' in installed_product):
+                if (('150' in installed_product) or ('328' in installed_product) or ('415' in installed_product)) and (util.is_fresh(row[3],CURRENT_TIMEFRAME_YEAR, CURRENT_TIMEFRAME_MONTH, sheet[16:18])):
                     if (tag != "none" and tagvalue!=""):
-                        count_rhev_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
+                        count_rhev_value_by_tag(number_of_sockets, stage_by_tag, tagvalue)
                     stage_virtualization_sockets = stage_virtualization_sockets + number_of_sockets
 
 

@@ -49,34 +49,36 @@ def ondemand_mw_from_json(path_to_json_dir, json_files_list, tag):
                         #check if tag exists in vmtags
                         tagvalue = util.get_tag_value_from_json(inventoryItem.get('server').get('tags'), tag)
 
-                    installed_product_list = []
-                    for product in installed_products:
-                        installed_product_list.append(product['id'])
-                    
-                    eap_packages_installed = False
-                    for package_name in installed_packages:
-                        if (package_name.startswith("eap")): eap_packages_installed = True
+                    # check if the system is fresh, before counting i.e. ignore stale systems
+                    if (util.is_fresh(inventoryItem['server']['stale_timestamp'],CURRENT_TIMEFRAME_YEAR, CURRENT_TIMEFRAME_MONTH, jsonFile[13:15])):
+                        installed_product_list = []
+                        for product in installed_products:
+                            installed_product_list.append(product['id'])
+                        
+                        eap_packages_installed = False
+                        for package_name in installed_packages:
+                            if (package_name.startswith("eap")): eap_packages_installed = True
 
-                    jws_services_running = False
-                    eap_services_running = False
-                    for service_name in installed_services:
-                        if ("eap" in service_name): eap_services_running = True
-                        if ("jws" in service_name): jws_services_running = True
+                        jws_services_running = False
+                        eap_services_running = False
+                        for service_name in installed_services:
+                            if ("eap" in service_name): eap_services_running = True
+                            if ("jws" in service_name): jws_services_running = True
 
-                    if not (('150' in installed_product_list) or ('328' in installed_product_list) or ('415' in installed_product_list)):
-                        #RHV is not installed - beacuase that entitles EAP or JWS to be installed
-                        if ('151' in installed_product_list) or ('183' in installed_product_list):
-                            stage_jboss_eap_cores = stage_jboss_eap_cores + number_of_cores
-                            if (tag != "none" and tagvalue!=""):
-                                count_mw_value_by_tag("eap", stage_by_tag, tagvalue, number_of_cores)
-                        elif (eap_packages_installed or eap_services_running):
-                            stage_jboss_eap_cores = stage_jboss_eap_cores + number_of_cores
-                            if (tag != "none" and tagvalue!=""):
-                                count_mw_value_by_tag("eap", stage_by_tag, tagvalue, number_of_cores)
-                        elif ('152' in installed_product_list) or ('184' in installed_product_list) or ('185' in installed_product_list) or jws_services_running:
-                            stage_jws_cores = stage_jws_cores + number_of_cores
-                            if (tag != "none" and tagvalue!=""):
-                                count_mw_value_by_tag("jws", stage_by_tag, tagvalue, number_of_cores)
+                        if not (('150' in installed_product_list) or ('328' in installed_product_list) or ('415' in installed_product_list)):
+                            #RHV is not installed - beacuase that entitles EAP or JWS to be installed
+                            if ('151' in installed_product_list) or ('183' in installed_product_list):
+                                stage_jboss_eap_cores = stage_jboss_eap_cores + number_of_cores
+                                if (tag != "none" and tagvalue!=""):
+                                    count_mw_value_by_tag("eap", stage_by_tag, tagvalue, number_of_cores)
+                            elif (eap_packages_installed or eap_services_running):
+                                stage_jboss_eap_cores = stage_jboss_eap_cores + number_of_cores
+                                if (tag != "none" and tagvalue!=""):
+                                    count_mw_value_by_tag("eap", stage_by_tag, tagvalue, number_of_cores)
+                            elif ('152' in installed_product_list) or ('184' in installed_product_list) or ('185' in installed_product_list) or jws_services_running:
+                                stage_jws_cores = stage_jws_cores + number_of_cores
+                                if (tag != "none" and tagvalue!=""):
+                                    count_mw_value_by_tag("jws", stage_by_tag, tagvalue, number_of_cores)
 
 
         if stage_jboss_eap_cores > jboss_eap_cores:

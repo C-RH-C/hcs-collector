@@ -6,13 +6,17 @@ import csv
 import shutil
 import os
 import subprocess
+import subprocess
 import json
+import time
 from datetime import datetime
 from setup_env import setup_env
 from execution import process_mw
 from execution import process_rhel
 from execution import process_virt
 from execution import process_rhel_addons
+from execution import inventory
+from execution import subscriptions
 from execution import collect_tags
 
 
@@ -20,6 +24,7 @@ def initial_directory_setup():
     """
     TODO
     """
+    print("started: " + time.ctime())
     print("initial directory setup")
     CURRENT_YEAR = str(datetime.now().strftime('%Y'))
     CURRENT_MONTH = str(datetime.now().strftime('%m'))
@@ -63,12 +68,19 @@ def initial_directory_setup():
     print("Cleaning the current cache files")
     os.system(crhc_cli + " ts clean")
 
-    print("Downloading and creating the new match info")
+    print('downloading subscriptions : ' + time.ctime())
+    subscriptions.download(JSON_FILE_SWATCH, crhc_cli)
+    print('downloading inventory: ' + time.ctime())
+    inventory.download(JSON_FILE_INV,crhc_cli)
+
+    # we can download and match data
     os.system(crhc_cli + " ts match")
+
+    # now copy the data
     shutil.copy(CSV_FILE, DEST_CSV_FILE)
     shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
     shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
-    collect_tags.append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
+
     collect_tags.append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
     # print(base_dir)
 
@@ -111,7 +123,7 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     """
     TODO
     """
-    # print("generating the report by ondemand")
+     # print("generating the report by ondemand")
     print("")
     print("## RHEL On-Demand")
     print("")
@@ -125,7 +137,6 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     print("## Middleware")
     print("")
     process_mw.ondemand_mw_from_json(path_to_json_dir, json_files_list, tag)
-
 
 
 
