@@ -1,14 +1,10 @@
 import csv
 from execution import util
 
-def virtualdatacenter_rhel(path_to_csv_dir, csv_files_list):
+def virtualdatacenter_rhel(path_to_csv_dir, csv_files_list, tag):
     """
     TODO
     """
-
-    # for debug purposes
-    # print(path_to_csv_dir)
-    # print(csv_files_list)
 
     CURRENT_TIMEFRAME_YEAR = path_to_csv_dir.split("/")[4]
     CURRENT_TIMEFRAME_MONTH = path_to_csv_dir.split("/")[5]
@@ -16,7 +12,6 @@ def virtualdatacenter_rhel(path_to_csv_dir, csv_files_list):
 
     for sheet in csv_files_list:
 
-        # adding virt_who and stage_virt_who
         virt_who = 0
         stage_virt_who = 0
         vdc_sockets = 0
@@ -38,12 +33,10 @@ def virtualdatacenter_rhel(path_to_csv_dir, csv_files_list):
                         hypervisor_number_of_sockets = int(row[11])
                     stage_vdc_sockets = stage_vdc_sockets + hypervisor_number_of_sockets
 
-    # adding virt-who
     if stage_virt_who > virt_who:
         virt_who = stage_virt_who
         stage_virt_who = 0
 
-    # adding vdc sockets
     if stage_vdc_sockets > vdc_sockets:
         vdc_sockets = stage_vdc_sockets
         stage_vdc_sockets = 0
