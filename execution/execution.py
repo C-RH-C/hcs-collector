@@ -13,6 +13,7 @@ from execution import process_mw
 from execution import process_rhel
 from execution import process_virt
 from execution import process_rhel_addons
+from execution import process_rhel_vdc
 from execution import collect_tags
 
 
@@ -125,6 +126,9 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     print("## Middleware")
     print("")
     process_mw.ondemand_mw_from_json(path_to_json_dir, json_files_list, tag)
+    print("## RHEL Virtual Data Center")
+    print("")
+    process_rhel_vdc.virtualdatacenter_rhel(path_to_csv_dir, csv_files_list, tag)
 
 
 

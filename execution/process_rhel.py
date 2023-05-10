@@ -17,6 +17,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     # max values for the month
     rhel_physical = 0
     rhel_virtual = 0
+    rhel_vdc = 0
     unknown = 0
     max_by_tag = {}
 
@@ -25,6 +26,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
         #counted values for this sheet/day
         stage_rhel_physical = 0
         stage_rhel_virtual = 0
+        stage_rhel_vdc = 0
         stage_unknown = 0
         stage_by_tag = {}
 
@@ -35,6 +37,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
                 # print(row)
                 infrastructure_type = row[21]
                 installed_product = row[35]
+                hypervisor_fqdn = row[38]
                 vmtags = row[len(row)-1]
                 tagvalue=""
                 if (tag != "none"):
@@ -48,6 +51,8 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
 
                     if infrastructure_type == "physical":
                         stage_rhel_physical = stage_rhel_physical + 1
+                    elif (infrastructure_type == "virtual") and (hypervisor_fqdn.startswith('virt-who-')):
+                        stage_rhel_vdc = stage_rhel_vdc + 1
                     elif infrastructure_type == "virtual":
                         stage_rhel_virtual = stage_rhel_virtual + 1
                     else:
@@ -59,7 +64,10 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
 
         if stage_rhel_virtual > rhel_virtual:
             rhel_virtual = stage_rhel_virtual
-        
+
+        if stage_rhel_vdc > rhel_vdc:
+            rhel_vdc = stage_rhel_vdc
+
         if stage_unknown > unknown:
             unknown = stage_unknown
         
@@ -76,6 +84,7 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
     if (tag != "none"):
         for tagvalue in max_by_tag:
             util.pretty_print(2,tagvalue, max_by_tag[tagvalue]['virtual'])
+    print("Virtual Data Center, Virtual Node ............: {}".format(rhel_vdc))
     print("Unknown ......................................: {}".format(unknown))
     print("")
 
