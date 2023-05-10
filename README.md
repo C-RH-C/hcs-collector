@@ -152,6 +152,7 @@ $ ./hcs-collector.py process
 Max Concurrent RHEL On-Demand, referrent to ..: 2022-03
 On-Demand, Physical Node .....................: 973
 On-Demand, Virtual Node ......................: 5092
+Virtual Data Center, Virtual Node ............: 3742
 Unknown ......................................: 0
 
 ## RHEL Add-ons
@@ -168,12 +169,17 @@ On-Demand, Virtualization Sockets ............: 192
 On-Demand, JBoss EAP Cores ...................: 312
 On-Demand, JWS Cores .........................: 474
 
+## RHEL Virtual Data Center
+
+Virtual Data Center, Hypervisor ..............: 198
+Virtual Data Center, Hypervisor Sockets ......: 766
 
 ## RHEL On-Demand
 
 Max Concurrent RHEL On-Demand, referrent to ..: 2022-04
 On-Demand, Physical Node .....................: 978
 On-Demand, Virtual Node ......................: 5500
+Virtual Data Center, Virtual Node ............: 3787
 Unknown ......................................: 0
 
 ## RHEL Add-ons
@@ -189,6 +195,11 @@ On-Demand, Virtualization Sockets ............: 192
 
 On-Demand, JBoss EAP Cores ...................: 324
 On-Demand, JWS Cores .........................: 496
+
+## RHEL Virtual Data Center
+
+Virtual Data Center, Hypervisor ..............: 198
+Virtual Data Center, Hypervisor Sockets ......: 766
 ```
 
 Another option is to use the --tag to break down the overall usage by tag.  This is so that you can break down your usage by environment, or business unit or any other criteria, and can help with internal cross charging.
