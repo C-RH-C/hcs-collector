@@ -157,7 +157,8 @@ Unknown ......................................: 0
 
 ## RHEL Add-ons
 
-On-Demand, HA Node ...........................: 12
+On-Demand, High Availability, Physical Node...: 0
+On-Demand, High Availability, Virtual Node....: 12
 On-Demand, Directory Server Node .............: 20
 
 ## Virtualization
@@ -184,7 +185,8 @@ Unknown ......................................: 0
 
 ## RHEL Add-ons
 
-On-Demand, HA Node ...........................: 12
+On-Demand, High Availability, Physical Node...: 0
+On-Demand, High Availability, Virtual Node....: 12
 On-Demand, Directory Server Node .............: 20
 
 ## Virtualization
