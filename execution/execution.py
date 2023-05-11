@@ -119,7 +119,7 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     process_rhel.ondemand_rhel(path_to_csv_dir, csv_files_list, tag)
     print("## RHEL Add-ons")
     print("")
-    process_rhel_addons.ondemand_rhel_related_products_from_json(path_to_json_dir, json_files_list, tag)
+    process_rhel_addons.ondemand_rhel_related_products(path_to_csv_dir, csv_files_list, tag)
     print("## Virtualization")
     print("")
     process_virt.ondemand_virtualization(path_to_csv_dir, csv_files_list, tag)
