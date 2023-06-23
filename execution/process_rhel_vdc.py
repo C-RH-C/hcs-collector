@@ -6,8 +6,8 @@ def virtualdatacenter_rhel(path_to_csv_dir, csv_files_list, tag):
     TODO
     """
 
-    CURRENT_TIMEFRAME_YEAR = path_to_csv_dir.split("/")[4]
-    CURRENT_TIMEFRAME_MONTH = path_to_csv_dir.split("/")[5]
+    CURRENT_TIMEFRAME_YEAR = util.get_year_from_path(path_to_csv_dir)
+    CURRENT_TIMEFRAME_MONTH = util.get_month_from_path(path_to_csv_dir)
     CURRENT_TIMEFRAME = CURRENT_TIMEFRAME_YEAR + "-" + CURRENT_TIMEFRAME_MONTH
 
     for sheet in csv_files_list:
