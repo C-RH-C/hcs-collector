@@ -15,6 +15,7 @@ from execution import process_virt
 from execution import process_rhel_addons
 from execution import process_rhel_vdc
 from execution import collect_tags
+from execution import process_ansible
 
 
 def initial_directory_setup():
@@ -53,10 +54,12 @@ def initial_directory_setup():
     CSV_FILE = "/tmp/match_inv_sw.csv"
     JSON_FILE_INV = "/tmp/inventory.json"
     JSON_FILE_SWATCH = "/tmp/swatch.json"
+    ANSIBLE_USAGE_FILE = "/tmp/ansible.json"
 
     DEST_CSV_FILE = CURRENT_CSV_DIR + "/" + "match_inv_sw_" + CURRENT_MONTH + "-" + CURRENT_DAY + "-" + CURRENT_YEAR + ".csv"
     DEST_JSON_FILE_INV = CURRENT_JSON_DIR + "/" + "inventory_" + CURRENT_MONTH + "-" + CURRENT_DAY + "-" + CURRENT_YEAR + ".json"
     DEST_JSON_FILE_SWATCH = CURRENT_JSON_DIR + "/" + "swatch_" + CURRENT_MONTH + "-" + CURRENT_DAY + "-" + CURRENT_YEAR + ".json"
+    DEST_JSON_FILE_ANSIBLE = CURRENT_JSON_DIR + "/" + "ansible_" + CURRENT_MONTH + "-" + CURRENT_DAY + "-" + CURRENT_YEAR + ".json"
 
     crhc_cli = setup_env.view_current_conf()['crhc_cli']
     print(crhc_cli)
@@ -65,12 +68,18 @@ def initial_directory_setup():
     os.system(crhc_cli + " ts clean")
 
     print("Downloading and creating the new match info")
+    os.system(crhc_cli + " ts dump_current")
     os.system(crhc_cli + " ts match")
     shutil.copy(CSV_FILE, DEST_CSV_FILE)
     shutil.copy(JSON_FILE_INV, DEST_JSON_FILE_INV)
     shutil.copy(JSON_FILE_SWATCH, DEST_JSON_FILE_SWATCH)
     collect_tags.append_tags_to_inventory_json(DEST_JSON_FILE_INV, crhc_cli)
     collect_tags.append_tags_to_inventory_csv(DEST_CSV_FILE, crhc_cli)
+    print("Downloading the ansible info")
+    os.system(crhc_cli + " ansible unique_hosts > " + ANSIBLE_USAGE_FILE)
+    shutil.copy(ANSIBLE_USAGE_FILE, DEST_JSON_FILE_ANSIBLE)
+    
+    
     # print(base_dir)
 
 
@@ -129,6 +138,9 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     print("## RHEL Virtual Data Center")
     print("")
     process_rhel_vdc.virtualdatacenter_rhel(path_to_csv_dir, csv_files_list, tag)
+    print("## Ansible Managed Hosts")
+    print("")
+    process_ansible.ondemand_ansible_from_json(path_to_json_dir, json_files_list, tag)
 
 
 

@@ -46,7 +46,7 @@ def append_tags_to_swatch_rows(swatch_row_array, crhc_cli, results):
     
     if (not is_first):
         # This means there is at least one entry in the array
-        print("api call is : " + crhc_cli + crhc_api + "/tags > /tmp/tags.json")
+        # print("api call is : " + crhc_cli + crhc_api + "/tags > /tmp/tags.json")
         os.system(crhc_cli + crhc_api + "/tags > /tmp/tags.json")
         with open("/tmp/tags.json", "r") as file_tag:
             tag_result=json.load(file_tag)
