@@ -14,14 +14,15 @@ def ondemand_rhel_related_products(path_to_csv_dir, csv_files_list, tag):
     CURRENT_TIMEFRAME_MONTH = path_to_csv_dir.split("/")[5]
     CURRENT_TIMEFRAME = CURRENT_TIMEFRAME_YEAR + "-" + CURRENT_TIMEFRAME_MONTH
 
+    rhel_ha_physical = 0
+    rhel_ha_virtual =0
+    rhel_directoryserver = 0
     for sheet in csv_files_list:
 
         # adding rhel_ha physical and virtual
-        rhel_ha_physical = 0
+
         stage_rhel_ha_physical = 0
-        rhel_ha_virtual =0
         stage_rhel_ha_virtual = 0
-        rhel_directoryserver = 0
         stage_rhel_directoryserver = 0
 
         with open(path_to_csv_dir + "/" + sheet, "r") as file_obj:
@@ -43,17 +44,17 @@ def ondemand_rhel_related_products(path_to_csv_dir, csv_files_list, tag):
                 if ('200' in installed_product):
                         stage_rhel_directoryserver = stage_rhel_directoryserver + 1
 
-    if stage_rhel_ha_physical > rhel_ha_physical:
-        rhel_ha_physical = stage_rhel_ha_physical
-        stage_rhel_ha_physical = 0
+        if stage_rhel_ha_physical > rhel_ha_physical:
+            rhel_ha_physical = stage_rhel_ha_physical
+            stage_rhel_ha_physical = 0
 
-    if stage_rhel_ha_virtual > rhel_ha_virtual:
-        rhel_ha_virtual = stage_rhel_ha_virtual
-        stage_rhel_ha_virtual = 0
+        if stage_rhel_ha_virtual > rhel_ha_virtual:
+            rhel_ha_virtual = stage_rhel_ha_virtual
+            stage_rhel_ha_virtual = 0
 
-    if stage_rhel_directoryserver > rhel_directoryserver:
-        rhel_directoryserver = stage_rhel_directoryserver
-        stage_rhel_directoryserver = 0
+        if stage_rhel_directoryserver > rhel_directoryserver:
+            rhel_directoryserver = stage_rhel_directoryserver
+            stage_rhel_directoryserver = 0
 
 
     print("On-Demand, High Availability, Physical Node...: {}".format(rhel_ha_physical))

@@ -109,10 +109,14 @@ def process_data(tag):
         months = os.listdir(base_dir + "/" + year)
         for month in months:
             # print(month)
+            csv_files_list = []
+            json_files_list = []
             path_to_csv_dir = base_dir + "/" + year + "/" + month + "/" + "CSV"
-            csv_files_list = os.listdir(path_to_csv_dir)
+            if (os.path.exists(path_to_csv_dir)):
+                csv_files_list = os.listdir(path_to_csv_dir)
             path_to_json_dir = base_dir + "/" + year + "/" + month + "/" + "JSON"
-            json_files_list = os.listdir(path_to_json_dir)
+            if (os.path.exists(path_to_json_dir)):
+                json_files_list = os.listdir(path_to_json_dir)
             # print(csv_files_list)
             generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_files_list, tag)
 
