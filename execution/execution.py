@@ -16,6 +16,7 @@ from execution import process_rhel_addons
 from execution import process_rhel_vdc
 from execution import collect_tags
 from execution import process_ansible
+from execution import process_rhel_versions
 
 
 def initial_directory_setup():
@@ -130,6 +131,9 @@ def generate_report(path_to_csv_dir, csv_files_list, path_to_json_dir, json_file
     print("## RHEL On-Demand")
     print("")
     process_rhel.ondemand_rhel(path_to_csv_dir, csv_files_list, tag)
+    print("## RHEL Versions")
+    print("")
+    process_rhel_versions.process_rhel_versions(path_to_csv_dir, csv_files_list, tag)
     print("## RHEL Add-ons")
     print("")
     process_rhel_addons.ondemand_rhel_related_products(path_to_csv_dir, csv_files_list, tag)
