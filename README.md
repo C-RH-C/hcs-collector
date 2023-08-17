@@ -11,12 +11,13 @@ Welcome to hcs-collector, this app will help our customers to collect daily the 
 <h1>How it works?</h1>
 
 Combined with [crhc-cli](https://github.com/C-RH-C/crhc-cli), this tool will collect the information daily, will keep the data in a place defined by the user and whenever the customer need, they will be able to generate the consumption report. The analysis process will be checking all the local files and will be presenting the `max concurrent value` of each month. At this moment, this is just a pilot and we are counting:
-    * RHEL Physical, Virtual and VDC
-    * RHEL versions (virtual and physical RHEL 5, 6, 7, 8 and 9)
-    * RHEL addons (HA and Directory Server)
-    * RHV
-    * JBoss Middleware (JBoss EAP and JWS)
-    * Ansible Managed Hosts
+
+* RHEL Physical, Virtual and VDC
+* RHEL versions (virtual and physical RHEL 5, 6, 7, 8 and 9)
+* RHEL addons (HA and Directory Server)
+* RHV
+* JBoss Middleware (JBoss EAP and JWS)
+* Ansible Managed Hosts
 
 ---
 
@@ -292,6 +293,10 @@ On-Demand, JBoss EAP Cores ...................: 324
 On-Demand, JWS Cores .........................: 196
   Dev ........................................: 68
   Prod .......................................: 128
+
+## Ansible Managed Hosts
+
+On-Demand, Ansible Managed Hosts .............: 487
 ```
 
 
