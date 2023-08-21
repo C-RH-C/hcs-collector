@@ -57,15 +57,21 @@ def process_rhel_versions(path_to_csv_dir, csv_files_list, tag):
 
         # check whether this day's numbers are bigger than the largest this month so far
         for major_os in OS_VERSIONS:
-            if major_os in max_versions:
+            if (major_os in max_versions) and (major_os in stage_versions):
+                # Have both a previous high mark, and mark for today - so need to compare
                 if (stage_versions[major_os]['physical'] > max_versions[major_os]['physical']):
                     max_versions[major_os]['physical'] = stage_versions[major_os]['physical']
                 if (stage_versions[major_os]['virtual'] > max_versions[major_os]['virtual']):
                     max_versions[major_os]['virtual'] = stage_versions[major_os]['virtual']
-            else:
+            elif (major_os in stage_versions):
+                # First time this os has been found for this month
                 max_versions.setdefault(major_os, {'physical':0, 'virtual':0})
                 max_versions[major_os]['physical'] = stage_versions[major_os]['physical']
                 max_versions[major_os]['virtual'] = stage_versions[major_os]['virtual']
+            else:
+                # If there isnt a value for this OS - put in a zero
+                if (major_os not in max_versions):
+                    max_versions.setdefault(major_os, {'physical':0, 'virtual':0})
 
             if (tag != "none"):
                 update_max_version_by_tag(stage_versions_by_tag, max_versions_by_tag, major_os, infrastructure_type)
@@ -84,6 +90,9 @@ def process_rhel_versions(path_to_csv_dir, csv_files_list, tag):
                 for tagvalue in max_versions_by_tag:
                     if (max_versions_by_tag[tagvalue][major_os]['virtual'] >0):
                         util.pretty_print(2,tagvalue, max_versions_by_tag[tagvalue][major_os]['virtual'])
+        else:
+            print("On-Demand, Physical RHEL " + major_os + "....................: 0")
+            print("On-Demand, Virtual RHEL " + major_os + ".....................: 0")
     
     print("")
 
