@@ -93,11 +93,13 @@ def ondemand_mw_from_json(path_to_json_dir, json_files_list, tag):
     print("On-Demand, JBoss EAP Cores ...................: {}".format(jboss_eap_cores))
     if (tag != "none"):
         for tagvalue in max_by_tag:
-            util.pretty_print(2,tagvalue, max_by_tag[tagvalue]['eap'])
+            if (max_by_tag[tagvalue]['eap']>0):
+               util.pretty_print(2,tagvalue, max_by_tag[tagvalue]['eap'])
     print("On-Demand, JWS Cores .........................: {}".format(jws_cores))
     if (tag != "none"):
         for tagvalue in max_by_tag:
-            util.pretty_print(2,tagvalue, max_by_tag[tagvalue]['jws'])
+            if (max_by_tag[tagvalue]['jws']>0):
+                util.pretty_print(2,tagvalue, max_by_tag[tagvalue]['jws'])
     print("")
 
 def count_mw_value_by_tag(mw_type, stage_by_tag, tagvalue, cores):
