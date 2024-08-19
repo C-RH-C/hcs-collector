@@ -70,9 +70,11 @@ def update_rhv_value_by_tag(stage_by_tag, max_by_tag):
             max_by_tag.setdefault(tagvalue, { 'sockets': stage_by_tag[tagvalue]['sockets']})
 
 def count_rhev_value_by_tag(sockets, stage_by_tag, tagvalue):
-    if (tagvalue in stage_by_tag):
-        tag_summary = stage_by_tag.get(tagvalue)
-    else:
-        tag_summary = stage_by_tag.setdefault(tagvalue, { 'sockets':0})
+    
+    if (sockets.isdigit()):
+        if (tagvalue in stage_by_tag):
+            tag_summary = stage_by_tag.get(tagvalue)
+        else:
+            tag_summary = stage_by_tag.setdefault(tagvalue, { 'sockets':0})
 
-    tag_summary['sockets'] = tag_summary['sockets'] +sockets
+        tag_summary['sockets'] = tag_summary['sockets'] + int(sockets)
