@@ -44,14 +44,13 @@ def process_rhel_versions(path_to_csv_dir, csv_files_list, tag):
                     tagvalue = util.get_tag_value(vmtags, tag)
                 
 
-                if ('69' in installed_product) or ('479' in installed_product):
-                    if (tag != "none" and tagvalue!=""):
-                        count_rhel_version_by_tag(major_os, infrastructure_type, stage_versions_by_tag, tagvalue)
+                if (tag != "none" and tagvalue!=""):
+                    count_rhel_version_by_tag(major_os, infrastructure_type, stage_versions_by_tag, tagvalue)
 
-                    if (major_os not in stage_versions):
-                        stage_versions.setdefault(major_os, {'physical':0, 'virtual':0})
-                    stage_count = stage_versions.get(major_os).get(infrastructure_type)
-                    stage_versions[major_os][infrastructure_type] = stage_count+1
+                if (major_os not in stage_versions):
+                    stage_versions.setdefault(major_os, {'physical':0, 'virtual':0})
+                stage_count = stage_versions.get(major_os).get(infrastructure_type)
+                stage_versions[major_os][infrastructure_type] = stage_count+1
 
                     
 
