@@ -1,3 +1,9 @@
+# **Archived Project**
+
+For more information, please visit the issue [https://issues.redhat.com/browse/RHIN-2342](https://issues.redhat.com/browse/RHIN-2342)
+
+---
+
 # hcs-collector - Command Line Tool
 
 Welcome to hcs-collector, this app will help our customers to collect daily the information from `console.redhat.com` and generate a report that will reflect some kind of consumption during the month for On-Demand subscriptions.
