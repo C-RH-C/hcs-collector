@@ -16,7 +16,14 @@ Welcome to hcs-collector, this app will help our customers to collect daily the 
 
 <h1>How it works?</h1>
 
-Combined with [crhc-cli](https://github.com/C-RH-C/crhc-cli), this tool will collect the information daily, will keep the data in a place defined by the user and whenever the customer need, they will be able to generate the consumption report. The analysis process will be checking all the local files and will be presenting the `max concurrent value` of each month. At this moment, this is just a pilot and we are counting only `On-demand Physical Node` and `On-demand Virtual Node`
+Combined with [crhc-cli](https://github.com/C-RH-C/crhc-cli), this tool will collect the information daily, will keep the data in a place defined by the user and whenever the customer need, they will be able to generate the consumption report. The analysis process will be checking all the local files and will be presenting the `max concurrent value` of each month. At this moment, this is just a pilot and we are counting:
+
+* RHEL Physical, Virtual and VDC
+* RHEL versions (virtual and physical RHEL 5, 6, 7, 8 and 9)
+* RHEL addons (HA and Directory Server)
+* RHV
+* JBoss Middleware (JBoss EAP and JWS)
+* Ansible Managed Hosts
 
 ---
 
@@ -161,6 +168,18 @@ On-Demand, Virtual Node ......................: 5092
 Virtual Data Center, Virtual Node ............: 3742
 Unknown ......................................: 0
 
+## RHEL Versions
+
+Max Concurrent RHEL On-Demand, by version ....: 2022-03
+On-Demand, Physical RHEL 6....................: 250
+On-Demand, Virtual RHEL 6.....................: 1000
+On-Demand, Physical RHEL 7....................: 723
+On-Demand, Virtual RHEL 7.....................: 2000
+On-Demand, Physical RHEL 8....................: 0
+On-Demand, Virtual RHEL 8.....................: 2092
+On-Demand, Physical RHEL 9....................: 0
+On-Demand, Virtual RHEL 9.....................: 0
+
 ## RHEL Add-ons
 
 On-Demand, High Availability, Physical Node...: 0
@@ -180,6 +199,10 @@ On-Demand, JWS Cores .........................: 474
 
 Virtual Data Center, Hypervisor ..............: 198
 Virtual Data Center, Hypervisor Sockets ......: 766
+
+## Ansible Managed Hosts
+
+On-Demand, Ansible Managed Hosts .............: 487
 
 ## RHEL On-Demand
 
@@ -208,6 +231,10 @@ On-Demand, JWS Cores .........................: 496
 
 Virtual Data Center, Hypervisor ..............: 198
 Virtual Data Center, Hypervisor Sockets ......: 766
+
+## Ansible Managed Hosts
+
+On-Demand, Ansible Managed Hosts .............: 533
 ```
 
 Another option is to use the --tag to break down the overall usage by tag.  This is so that you can break down your usage by environment, or business unit or any other criteria, and can help with internal cross charging.
@@ -228,6 +255,26 @@ On-Demand, Virtual Node ......................: 5500
   Dev ........................................: 1500
   Prod .......................................: 4000
 Unknown ......................................: 0
+
+Max Concurrent RHEL On-Demand, by version ....: 2022-03
+On-Demand, Physical RHEL 6....................: 250
+  Dev ........................................: 100
+  Prod .......................................: 150 
+On-Demand, Virtual RHEL 6.....................: 1000
+  Dev ........................................: 400
+  Prod .......................................: 600
+On-Demand, Physical RHEL 7....................: 723
+  Dev ........................................: 223
+  Prod .......................................: 500
+On-Demand, Virtual RHEL 7.....................: 2000
+  Dev ........................................: 700
+  Prod .......................................: 1300
+On-Demand, Physical RHEL 8....................: 0
+On-Demand, Virtual RHEL 8.....................: 2092
+  Dev ........................................: 692
+  Prod .......................................: 1400
+On-Demand, Physical RHEL 9....................: 0
+On-Demand, Virtual RHEL 9.....................: 0
 
 ## RHEL Add-ons
 
@@ -252,6 +299,10 @@ On-Demand, JBoss EAP Cores ...................: 324
 On-Demand, JWS Cores .........................: 196
   Dev ........................................: 68
   Prod .......................................: 128
+
+## Ansible Managed Hosts
+
+On-Demand, Ansible Managed Hosts .............: 487
 ```
 
 

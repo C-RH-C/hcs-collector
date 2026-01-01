@@ -45,18 +45,17 @@ def ondemand_rhel(path_to_csv_dir, csv_files_list, tag):
                     tagvalue = util.get_tag_value(vmtags, tag)
                 
 
-                if ('69' in installed_product) or ('479' in installed_product):
-                    if (tag != "none" and tagvalue!=""):
-                        count_rhel_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
+                if (tag != "none" and tagvalue!=""):
+                    count_rhel_value_by_tag(infrastructure_type, stage_by_tag, tagvalue)
 
-                    if infrastructure_type == "physical":
-                        stage_rhel_physical = stage_rhel_physical + 1
-                    elif (infrastructure_type == "virtual") and (hypervisor_fqdn.startswith('virt-who-')):
-                        stage_rhel_vdc = stage_rhel_vdc + 1
-                    elif infrastructure_type == "virtual":
-                        stage_rhel_virtual = stage_rhel_virtual + 1
-                    else:
-                        stage_unknown = stage_unknown + 1
+                if infrastructure_type == "physical":
+                    stage_rhel_physical = stage_rhel_physical + 1
+                elif (infrastructure_type == "virtual") and (hypervisor_fqdn.startswith('virt-who-')):
+                    stage_rhel_vdc = stage_rhel_vdc + 1
+                elif infrastructure_type == "virtual":
+                    stage_rhel_virtual = stage_rhel_virtual + 1
+                else:
+                    stage_unknown = stage_unknown + 1
 
         # check whether this day's numbers are bigger than the largest this month so far
         if stage_rhel_physical > rhel_physical:
